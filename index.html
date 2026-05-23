@@ -156,6 +156,89 @@
             </div>
         </div>
 
+        <!-- GRADIENT FLOW FIELD SANDBOX CARD (Span 12) - ROW 2.5 -->
+        <div class="bento-card span-12" id="fluid-card">
+            <div class="tech-corner tl"></div><div class="tech-corner tr"></div>
+            <div class="tech-corner bl"></div><div class="tech-corner br"></div>
+            
+            <div class="fluid-card-content">
+                <!-- LEFT COLUMN: DYNAMIC FLOW CANVAS -->
+                <div class="fluid-visual-column">
+                    <div class="section-label" style="margin-bottom: 24px;">// Gradient Flow Field Sandbox</div>
+                    <div class="fluid-canvas-container" id="fluid-canvas-container">
+                        <canvas id="fluid-canvas"></canvas>
+                    </div>
+                </div>
+                
+                <!-- RIGHT COLUMN: INTERACTIVE PARAMETER CONTROLS -->
+                <div class="fluid-control-column">
+                    <div class="fluid-control-card">
+                        <div>
+                            <div class="decoder-header">
+                                <span class="decoder-status-dot"></span>
+                                <span class="mono-label" style="font-size: 11px;">Simulation Console</span>
+                            </div>
+                            
+                            <!-- Viscosity Control -->
+                            <div class="control-group" style="margin-top: 16px;">
+                                <div class="control-label-row">
+                                    <span>VISCOSITY (DAMPING)</span>
+                                    <span class="control-value" id="viscosity-val">0.98</span>
+                                </div>
+                                <input type="range" class="fluid-slider" id="viscosity-slider" min="0.80" max="0.99" step="0.01" value="0.98">
+                            </div>
+                            
+                            <!-- Turbulence Control -->
+                            <div class="control-group" style="margin-top: 16px;">
+                                <div class="control-label-row">
+                                    <span>VORTICITY (TURBULENCE)</span>
+                                    <span class="control-value" id="turbulence-val">2.5</span>
+                                </div>
+                                <input type="range" class="fluid-slider" id="turbulence-slider" min="0.5" max="6.0" step="0.1" value="2.5">
+                            </div>
+
+                            <!-- Speed Control -->
+                            <div class="control-group" style="margin-top: 16px;">
+                                <div class="control-label-row">
+                                    <span>PARTICLE SPEED</span>
+                                    <span class="control-value" id="speed-val">1.5</span>
+                                </div>
+                                <input type="range" class="fluid-slider" id="speed-slider" min="0.5" max="4.0" step="0.1" value="1.5">
+                            </div>
+                            
+                            <!-- Color Profile Control -->
+                            <div class="control-group" style="margin-top: 16px;">
+                                <div class="control-label-row">
+                                    <span>FLOW COLOR PROFILE</span>
+                                </div>
+                                <select class="fluid-select" id="color-select">
+                                    <option value="gold">Gold Core (Amber Swirl)</option>
+                                    <option value="cyan">Thermal Cyan (Blue-Green)</option>
+                                    <option value="spectral">Spectral Space (Purple-Red)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Telemetry Readout Box -->
+                        <div class="fluid-dashboard-readout" style="margin-top: 20px;">
+                            <div class="readout-line">
+                                <span>PARTICLE COUNT:</span>
+                                <span class="readout-val text-white" id="readout-particles">3,000</span>
+                            </div>
+                            <div class="readout-line">
+                                <span>GRID DIMENSIONS:</span>
+                                <span class="readout-val text-white">40 x 24 Vectors</span>
+                            </div>
+                            <div class="readout-line">
+                                <span>SIMULATION RATE:</span>
+                                <span class="readout-val text-gold" id="readout-fps">60 FPS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- CONTACT CARD (Span 12) - ROW 3 -->
         <div class="bento-card span-12" id="contact">
             <div class="tech-corner tl"></div><div class="tech-corner tr"></div>
@@ -764,6 +847,297 @@
     draw();
     requestAnimationFrame(tick);
   }
+  tick();
+})();
+
+
+
+// ─── DYNAMIC GRADIENT FLOW FIELD SIMULATION ───
+(function(){
+  const canvas = document.getElementById('fluid-canvas');
+  const container = document.getElementById('fluid-canvas-container');
+  if (!canvas || !container) return;
+  const ctx = canvas.getContext('2d');
+
+  // Interactive controls Elements
+  const viscositySlider = document.getElementById('viscosity-slider');
+  const turbulenceSlider = document.getElementById('turbulence-slider');
+  const speedSlider = document.getElementById('speed-slider');
+  const colorSelect = document.getElementById('color-select');
+  
+  const viscosityVal = document.getElementById('viscosity-val');
+  const turbulenceVal = document.getElementById('turbulence-val');
+  const speedVal = document.getElementById('speed-val');
+  
+  const readoutFps = document.getElementById('readout-fps');
+  const readoutParticles = document.getElementById('readout-particles');
+
+  let w, h;
+  let dpr = window.devicePixelRatio || 1;
+  
+  // Simulation variables
+  let particles = [];
+  const maxParticles = 3000;
+  let grid = [];
+  let cols, rows;
+  const spacing = 20; // grid spacing in px
+  
+  // Physics parameters (user-controllable)
+  let viscosity = parseFloat(viscositySlider.value);
+  let turbulence = parseFloat(turbulenceSlider.value);
+  let speedMultiplier = parseFloat(speedSlider.value);
+  let colorProfile = colorSelect.value;
+  
+  // Interactive variables
+  let mouse = { x: 0, y: 0, px: 0, py: 0, vx: 0, vy: 0, active: false };
+  
+  // Setup sizing
+  function resize() {
+    w = container.offsetWidth;
+    h = container.offsetHeight;
+    
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    ctx.scale(dpr, dpr);
+    
+    cols = Math.ceil(w / spacing) + 1;
+    rows = Math.ceil(h / spacing) + 1;
+    
+    // Reinit grid
+    grid = [];
+    for (let c = 0; c < cols; c++) {
+      grid[c] = [];
+      for (let r = 0; r < rows; r++) {
+        grid[c][r] = {
+          x: c * spacing,
+          y: r * spacing,
+          vx: 0,
+          vy: 0,
+          baseAngle: Math.sin(c * 0.08) * Math.cos(r * 0.08) * Math.PI * 0.5
+        };
+      }
+    }
+    
+    // Reposition particles if out of bounds
+    particles.forEach(p => {
+      if (p.x > w || p.y > h) {
+        p.x = Math.random() * w;
+        p.y = Math.random() * h;
+      }
+    });
+  }
+  
+  // Initialize particles
+  for (let i = 0; i < maxParticles; i++) {
+    particles.push({
+      x: Math.random() * window.innerWidth, // spread initially
+      y: Math.random() * window.innerHeight,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5,
+      life: Math.random() * 150 + 50,
+      maxLife: 200,
+      r: Math.random() * 0.8 + 0.5,
+      // Randomize color shade slightly
+      hueOffset: Math.random() * 0.2 - 0.1
+    });
+  }
+
+  // Set up listeners for controls
+  viscositySlider.addEventListener('input', (e) => {
+    viscosity = parseFloat(e.target.value);
+    viscosityVal.innerText = viscosity.toFixed(2);
+  });
+  
+  turbulenceSlider.addEventListener('input', (e) => {
+    turbulence = parseFloat(e.target.value);
+    turbulenceVal.innerText = turbulence.toFixed(1);
+  });
+
+  speedSlider.addEventListener('input', (e) => {
+    speedMultiplier = parseFloat(e.target.value);
+    speedVal.innerText = speedMultiplier.toFixed(1);
+  });
+  
+  colorSelect.addEventListener('change', (e) => {
+    colorProfile = e.target.value;
+  });
+
+  // Track mouse
+  canvas.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+    
+    if (mouse.active) {
+      mouse.vx = mouse.x - mouse.px;
+      mouse.vy = mouse.y - mouse.py;
+    } else {
+      mouse.active = true;
+      mouse.vx = 0;
+      mouse.vy = 0;
+    }
+    
+    mouse.px = mouse.x;
+    mouse.py = mouse.y;
+  });
+  
+  canvas.addEventListener('mouseleave', () => {
+    mouse.active = false;
+    mouse.vx = 0;
+    mouse.vy = 0;
+  });
+
+  // Flow Field logic
+  function updateGrid() {
+    const mouseRadius = 90;
+    const forceFactor = 0.45;
+    
+    for (let c = 0; c < cols; c++) {
+      for (let r = 0; r < rows; r++) {
+        const cell = grid[c][r];
+        
+        // Base drift velocity (ambient motion)
+        const time = Date.now() * 0.0006;
+        const driftAngle = cell.baseAngle + Math.sin(time + c * 0.1) * 0.2;
+        const driftForce = 0.05;
+        
+        cell.vx += Math.cos(driftAngle) * driftForce;
+        cell.vy += Math.sin(driftAngle) * driftForce;
+        
+        // Mouse influence
+        if (mouse.active) {
+          const dx = cell.x - mouse.x;
+          const dy = cell.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          
+          if (dist < mouseRadius) {
+            const factor = (mouseRadius - dist) / mouseRadius; // 0 to 1
+            const push = factor * forceFactor;
+            
+            // 1. Directional velocity transfer from mouse movement
+            cell.vx += mouse.vx * push * 0.8;
+            cell.vy += mouse.vy * push * 0.8;
+            
+            // 2. Rotational curl (vorticity/swirls)
+            const perpX = -dy / (dist || 1);
+            const perpY = dx / (dist || 1);
+            
+            const mouseSpeed = Math.sqrt(mouse.vx * mouse.vx + mouse.vy * mouse.vy);
+            const swirlStrength = Math.min(mouseSpeed, 8) * push * turbulence * 0.55;
+            
+            cell.vx += perpX * swirlStrength;
+            cell.vy += perpY * swirlStrength;
+          }
+        }
+        
+        // Apply friction/decay to grid vectors
+        cell.vx *= 0.93;
+        cell.vy *= 0.93;
+      }
+    }
+  }
+
+  // Get color depending on colorProfile settings
+  function getParticleColor(p, lifeRatio) {
+    let opacity = lifeRatio * 0.65;
+    if (colorProfile === 'gold') {
+      const blendVal = Math.sin(p.life * 0.05) + p.hueOffset;
+      if (blendVal < -0.1) {
+        return `rgba(200, 185, 122, ${opacity})`;
+      } else if (blendVal < 0.2) {
+        return `rgba(225, 175, 80, ${opacity})`;
+      } else {
+        return `rgba(245, 230, 170, ${opacity})`;
+      }
+    } else if (colorProfile === 'cyan') {
+      const blendVal = Math.sin(p.life * 0.05) + p.hueOffset;
+      if (blendVal < -0.1) {
+        return `rgba(6, 182, 212, ${opacity})`;
+      } else if (blendVal < 0.2) {
+        return `rgba(74, 222, 128, ${opacity})`;
+      } else {
+        return `rgba(59, 130, 246, ${opacity})`;
+      }
+    } else {
+      const blendVal = Math.sin(p.life * 0.05) + p.hueOffset;
+      if (blendVal < -0.1) {
+        return `rgba(168, 85, 247, ${opacity})`;
+      } else if (blendVal < 0.2) {
+        return `rgba(236, 72, 153, ${opacity})`;
+      } else {
+        return `rgba(239, 68, 68, ${opacity})`;
+      }
+    }
+  }
+  
+  // FPS calculation
+  let fps = 60;
+  let lastFrameTime = performance.now();
+  let frameCount = 0;
+
+  // Main Loop
+  function tick() {
+    ctx.fillStyle = 'rgba(5, 5, 5, 0.095)';
+    ctx.fillRect(0, 0, w, h);
+    
+    updateGrid();
+    
+    particles.forEach(p => {
+      p.life -= 0.5;
+      
+      if (p.life <= 0 || p.x < 0 || p.x > w || p.y < 0 || p.y > h) {
+        p.x = Math.random() * w;
+        p.y = Math.random() * h;
+        p.vx = (Math.random() - 0.5) * 0.4;
+        p.vy = (Math.random() - 0.5) * 0.4;
+        p.life = Math.random() * 150 + 50;
+      }
+      
+      const cellC = Math.max(0, Math.min(Math.floor(p.x / spacing), cols - 1));
+      const cellR = Math.max(0, Math.min(Math.floor(p.y / spacing), rows - 1));
+      const cell = grid[cellC][cellR];
+      
+      p.vx += cell.vx * speedMultiplier * 0.08;
+      p.vy += cell.vy * speedMultiplier * 0.08;
+      
+      p.vx *= viscosity;
+      p.vy *= viscosity;
+      
+      p.x += p.vx;
+      p.y += p.vy;
+      
+      const lifeRatio = p.life / p.maxLife;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = getParticleColor(p, lifeRatio);
+      ctx.fill();
+    });
+    
+    frameCount++;
+    const now = performance.now();
+    const elapsed = now - lastFrameTime;
+    if (elapsed >= 1000) {
+      fps = Math.round((frameCount * 1000) / elapsed);
+      readoutFps.innerText = `${fps} FPS`;
+      frameCount = 0;
+      lastFrameTime = now;
+      
+      const bars = document.querySelectorAll('.decoder-bar');
+      bars.forEach((bar, idx) => {
+        if (Math.random() > 0.45) bar.classList.add('active');
+        else bar.classList.remove('active');
+      });
+    }
+    
+    requestAnimationFrame(tick);
+  }
+  
+  const resizeObserver = new ResizeObserver(() => {
+    resize();
+  });
+  resizeObserver.observe(container);
+  
+  resize();
   tick();
 })();
 
