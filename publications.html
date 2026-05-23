@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publications — Alethia</title>
+    <meta name="description" content="Independent open intelligence research. Model architecture · Data synthesis · Distributed training.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --void:     #0a0a0a;
+            --gold:     #c8b97a;
+            --parchment:#f0ede6;
+            --surface:  #1e1e1e;
+            --muted:    #444441;
+            --mono: 'IBM Plex Mono', 'Fira Code', 'JetBrains Mono', monospace;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--void);
+            color: var(--parchment);
+            font-family: var(--mono);
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 56px;
+            background: rgba(10,10,10,0.92);
+            border-bottom: 1px solid var(--surface);
+            backdrop-filter: blur(8px);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .nav-brand img {
+            height: 96px;
+            width: auto;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 44px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            color: var(--muted);
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 0.18s;
+        }
+
+        .nav-links a:hover { color: var(--parchment); }
+        .nav-links a.active { color: var(--gold); }
+
+        .section {
+            padding: 100px 56px;
+            border-top: 1px solid var(--surface);
+        }
+
+        .section-label {
+            font-size: 12px;
+            letter-spacing: 0.22em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 64px;
+            opacity: 0.75;
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            background: var(--surface);
+            gap: 1px;
+        }
+
+        .pillar {
+            background: var(--void);
+            padding: 52px 44px 48px;
+            transition: background 0.18s;
+        }
+
+        .pillar:hover { background: #0e0e0e; }
+
+        .pillar-index {
+            font-size: 12px;
+            letter-spacing: 0.18em;
+            color: var(--muted);
+            margin-bottom: 36px;
+        }
+
+        .pillar-title {
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            color: var(--parchment);
+            text-transform: uppercase;
+            margin-bottom: 22px;
+        }
+
+        .pillar-desc {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.9;
+        }
+
+        footer {
+            padding: 40px 56px;
+            border-top: 1px solid var(--surface);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-left {
+            font-size: 12px;
+            letter-spacing: 0.14em;
+            color: var(--muted);
+        }
+
+        .footer-left span {
+            color: rgba(68,68,65,0.5);
+        }
+
+        .footer-right {
+            font-size: 12px;
+            letter-spacing: 0.14em;
+            color: rgba(68,68,65,0.4);
+        }
+
+        @media (max-width: 900px) {
+            nav { padding: 18px 28px; }
+            .nav-links { display: none; }
+            .section { padding: 72px 28px; }
+            .pillars-grid { grid-template-columns: 1fr; }
+            footer { padding: 32px 28px; flex-direction: column; gap: 16px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="nav-brand">
+        <img src="Logo.jpeg" alt="Alethia — Open Intelligence Labs">
+    </a>
+    <ul class="nav-links">
+        <li><a href="publications.html" class="active">Publications</a></li>
+        <li><a href="index.html#output">Output</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- ── RESEARCH PILLARS ─────────────────────────────────────────────── -->
+<section class="section" id="research">
+    <div class="section-label">// Research Areas</div>
+    <div class="pillars-grid">
+        <div class="pillar">
+            <div class="pillar-index">// 001</div>
+            <div class="pillar-title">Model Architecture</div>
+            <p class="pillar-desc">Structural analysis of large-scale AI systems. We investigate emergent properties, attention mechanisms, and scaling dynamics across transformer and non-transformer architectures.</p>
+        </div>
+        <div class="pillar">
+            <div class="pillar-index">// 002</div>
+            <div class="pillar-title">Data Synthesis</div>
+            <p class="pillar-desc">Cross-domain intelligence aggregation from open-source streams. Methodology for extracting signal from high-dimensional, noisy public datasets at scale.</p>
+        </div>
+        <div class="pillar">
+            <div class="pillar-index">// 003</div>
+            <div class="pillar-title">Distributed Training</div>
+            <p class="pillar-desc">Research into decentralized compute protocols, federated optimization, and the coordination mechanics of geographically distributed training infrastructure.</p>
+        </div>
+    </div>
+
+    <!-- ── PUBLICATIONS ─────────────────────────────────────────── -->
+    <div style="margin-top:80px">
+        <div class="section-label">// Publications</div>
+        <div style="border-top:1px solid var(--surface)">
+            <a href="papers/aletheia-mcp-security-report.pdf" target="_blank" rel="noopener"
+               style="display:flex; align-items:center; justify-content:space-between; padding:28px 0; border-bottom:1px solid var(--surface); text-decoration:none; color:var(--parchment); transition:color 0.18s"
+               onmouseenter="this.style.color='var(--gold)'" onmouseleave="this.style.color='var(--parchment)'">
+                <div>
+                    <div style="font-size:18px; letter-spacing:0.02em; margin-bottom:8px">MCP Security Report</div>
+                    <div style="font-size:14px; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase">Analysis of the Model Context Protocol threat surface</div>
+                </div>
+                <span style="font-size:13px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); transition:color 0.18s, transform 0.18s; white-space:nowrap; display:flex; align-items:center; gap:8px"
+                      onmouseenter="this.style.color='var(--gold)'; this.style.transform='translateX(4px)'" onmouseleave="this.style.color='var(--muted)'; this.style.transform='translateX(0)'">
+                    Read Paper →
+                </span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-left">
+        ALETHIA &nbsp;<span>·</span>&nbsp; OPEN INTELLIGENCE LABS
+        &nbsp;&nbsp;<span>© 2025</span>
+    </div>
+    <div class="footer-right">SEED: 4182736501</div>
+</footer>
+
+</body>
+</html>
