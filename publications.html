@@ -5,163 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Publications — Alethia</title>
     <meta name="description" content="Independent open intelligence research. Model architecture · Data synthesis · Distributed training.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-    <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        :root {
-            --void:     #0a0a0a;
-            --gold:     #c8b97a;
-            --parchment:#f0ede6;
-            --surface:  #1e1e1e;
-            --muted:    #444441;
-            --mono: 'IBM Plex Mono', 'Fira Code', 'JetBrains Mono', monospace;
-        }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            background: var(--void);
-            color: var(--parchment);
-            font-family: var(--mono);
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 56px;
-            background: rgba(10,10,10,0.92);
-            border-bottom: 1px solid var(--surface);
-            backdrop-filter: blur(8px);
-        }
-
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
-
-        .nav-brand img {
-            height: 96px;
-            width: auto;
-            display: block;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 44px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            font-size: 12px;
-            letter-spacing: 0.2em;
-            color: var(--muted);
-            text-decoration: none;
-            text-transform: uppercase;
-            transition: color 0.18s;
-        }
-
-        .nav-links a:hover { color: var(--parchment); }
-        .nav-links a.active { color: var(--gold); }
-
-        .section {
-            padding: 100px 56px;
-            border-top: 1px solid var(--surface);
-        }
-
-        .section-label {
-            font-size: 12px;
-            letter-spacing: 0.22em;
-            color: var(--gold);
-            text-transform: uppercase;
-            margin-bottom: 64px;
-            opacity: 0.75;
-        }
-
-        .pillars-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            background: var(--surface);
-            gap: 1px;
-        }
-
-        .pillar {
-            background: var(--void);
-            padding: 52px 44px 48px;
-            transition: background 0.18s;
-        }
-
-        .pillar:hover { background: #0e0e0e; }
-
-        .pillar-index {
-            font-size: 12px;
-            letter-spacing: 0.18em;
-            color: var(--muted);
-            margin-bottom: 36px;
-        }
-
-        .pillar-title {
-            font-size: 15px;
-            font-weight: 500;
-            letter-spacing: 0.14em;
-            color: var(--parchment);
-            text-transform: uppercase;
-            margin-bottom: 22px;
-        }
-
-        .pillar-desc {
-            font-size: 14px;
-            color: var(--muted);
-            line-height: 1.9;
-        }
-
-        footer {
-            padding: 40px 56px;
-            border-top: 1px solid var(--surface);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .footer-left {
-            font-size: 12px;
-            letter-spacing: 0.14em;
-            color: var(--muted);
-        }
-
-        .footer-left span {
-            color: rgba(68,68,65,0.5);
-        }
-
-        .footer-right {
-            font-size: 12px;
-            letter-spacing: 0.14em;
-            color: rgba(68,68,65,0.4);
-        }
-
-        @media (max-width: 900px) {
-            nav { padding: 18px 28px; }
-            .nav-links { display: none; }
-            .section { padding: 72px 28px; }
-            .pillars-grid { grid-template-columns: 1fr; }
-            footer { padding: 32px 28px; flex-direction: column; gap: 16px; text-align: center; }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<!-- ── SITE-WIDE BACKGROUND DUST CANVASES ── -->
+<canvas id="bg-dust" style="position: fixed; inset: 0; pointer-events: none; z-index: -1; width: 100vw; height: 100vh;"></canvas>
+
+<!-- ── AMBIENT BACKGROUND GLOWS ── -->
+<div class="ambient-glow glow-1"></div>
+<div class="ambient-glow glow-2"></div>
+
+<!-- ── MASTHEAD ── -->
+<div class="masthead">
+    Alethia <span>·</span> Open Intelligence Laboratory <span>·</span> Open Access
+</div>
+
+<!-- ── NAV ── -->
 <nav>
     <a href="index.html" class="nav-brand">
         <img src="Logo.jpeg" alt="Alethia — Open Intelligence Labs">
@@ -171,57 +31,190 @@
         <li><a href="index.html#output">Output</a></li>
         <li><a href="index.html#about">About</a></li>
         <li><a href="index.html#contact">Contact</a></li>
+        <li><span class="open-access-badge">Open Access</span></li>
     </ul>
 </nav>
 
-<!-- ── RESEARCH PILLARS ─────────────────────────────────────────────── -->
-<section class="section" id="research">
-    <div class="section-label">// Research Areas</div>
-    <div class="pillars-grid">
-        <div class="pillar">
-            <div class="pillar-index">// 001</div>
-            <div class="pillar-title">Model Architecture</div>
-            <p class="pillar-desc">Structural analysis of large-scale AI systems. We investigate emergent properties, attention mechanisms, and scaling dynamics across transformer and non-transformer architectures.</p>
+<!-- ── BENTO CONTENT CONTAINER ── -->
+<main class="section fade-in" id="research" style="margin-top: 80px; padding-top: 20px;">
+    <div class="bento-grid">
+        
+        <!-- PILLAR 1 (Span 4) -->
+        <div class="bento-card span-4">
+            <div class="tech-corner tl"></div><div class="tech-corner tr"></div>
+            <div class="tech-corner bl"></div><div class="tech-corner br"></div>
+            <div>
+                <div class="pillar-index" style="font-family: var(--font-mono); font-size: 12px; color: var(--gold); margin-bottom: 24px;">// 001</div>
+                <h3 class="pillar-title" style="font-size: 19px; font-weight: 500; margin-bottom: 12px;">Model Architecture</h3>
+                <p class="pillar-desc" style="font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.8;">Structural analysis of large-scale AI systems. We investigate emergent properties, attention mechanisms, and scaling dynamics across transformer and non-transformer architectures.</p>
+            </div>
         </div>
-        <div class="pillar">
-            <div class="pillar-index">// 002</div>
-            <div class="pillar-title">Data Synthesis</div>
-            <p class="pillar-desc">Cross-domain intelligence aggregation from open-source streams. Methodology for extracting signal from high-dimensional, noisy public datasets at scale.</p>
-        </div>
-        <div class="pillar">
-            <div class="pillar-index">// 003</div>
-            <div class="pillar-title">Distributed Training</div>
-            <p class="pillar-desc">Research into decentralized compute protocols, federated optimization, and the coordination mechanics of geographically distributed training infrastructure.</p>
-        </div>
-    </div>
 
-    <!-- ── PUBLICATIONS ─────────────────────────────────────────── -->
-    <div style="margin-top:80px">
-        <div class="section-label">// Publications</div>
-        <div style="border-top:1px solid var(--surface)">
-            <a href="papers/aletheia-mcp-security-report.pdf" target="_blank" rel="noopener"
-               style="display:flex; align-items:center; justify-content:space-between; padding:28px 0; border-bottom:1px solid var(--surface); text-decoration:none; color:var(--parchment); transition:color 0.18s"
-               onmouseenter="this.style.color='var(--gold)'" onmouseleave="this.style.color='var(--parchment)'">
-                <div>
-                    <div style="font-size:18px; letter-spacing:0.02em; margin-bottom:8px">MCP Security Report</div>
-                    <div style="font-size:14px; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase">Analysis of the Model Context Protocol threat surface</div>
-                </div>
-                <span style="font-size:13px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); transition:color 0.18s, transform 0.18s; white-space:nowrap; display:flex; align-items:center; gap:8px"
-                      onmouseenter="this.style.color='var(--gold)'; this.style.transform='translateX(4px)'" onmouseleave="this.style.color='var(--muted)'; this.style.transform='translateX(0)'">
-                    Read Paper →
-                </span>
-            </a>
+        <!-- PILLAR 2 (Span 4) -->
+        <div class="bento-card span-4">
+            <div class="tech-corner tl"></div><div class="tech-corner tr"></div>
+            <div class="tech-corner bl"></div><div class="tech-corner br"></div>
+            <div>
+                <div class="pillar-index" style="font-family: var(--font-mono); font-size: 12px; color: var(--gold); margin-bottom: 24px;">// 002</div>
+                <h3 class="pillar-title" style="font-size: 19px; font-weight: 500; margin-bottom: 12px;">Data Synthesis</h3>
+                <p class="pillar-desc" style="font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.8;">Cross-domain intelligence aggregation from open-source streams. Methodology for extracting signal from high-dimensional, noisy public datasets at scale.</p>
+            </div>
         </div>
-    </div>
-</section>
 
+        <!-- PILLAR 3 (Span 4) -->
+        <div class="bento-card span-4">
+            <div class="tech-corner tl"></div><div class="tech-corner tr"></div>
+            <div class="tech-corner bl"></div><div class="tech-corner br"></div>
+            <div>
+                <div class="pillar-index" style="font-family: var(--font-mono); font-size: 12px; color: var(--gold); margin-bottom: 24px;">// 003</div>
+                <h3 class="pillar-title" style="font-size: 19px; font-weight: 500; margin-bottom: 12px;">Distributed Training</h3>
+                <p class="pillar-desc" style="font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.8;">Research into decentralized compute protocols, federated optimization, and the coordination mechanics of geographically distributed training infrastructure.</p>
+            </div>
+        </div>
+
+        <!-- PUBLICATIONS LIST (Span 12) -->
+        <div class="bento-card span-12" style="margin-top: 16px;">
+            <div class="tech-corner tl"></div><div class="tech-corner tr"></div>
+            <div class="tech-corner bl"></div><div class="tech-corner br"></div>
+            <div>
+                <div class="section-label" style="margin-bottom: 32px;">// Released Publications & Reports</div>
+                <a href="papers/aletheia-mcp-security-report.pdf" target="_blank" rel="noopener" class="pub-item" style="padding: 24px; border-radius: 6px; margin-bottom: 0;">
+                    <div class="pub-item-info">
+                        <h4 style="font-size: 18px; font-family: var(--font-serif); font-weight: 500; color: var(--parchment);">MCP Security Report</h4>
+                        <p style="font-size: 14px; font-family: var(--font-sans); color: var(--muted); margin-top: 4px;">Analysis of the Model Context Protocol threat surface</p>
+                    </div>
+                    <span class="pub-item-link" style="padding: 8px 16px; font-size: 12px; font-family: var(--font-sans); font-weight: 600;">
+                        Read Paper →
+                    </span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<!-- ── FOOTER ── -->
 <footer>
     <div class="footer-left">
         ALETHIA &nbsp;<span>·</span>&nbsp; OPEN INTELLIGENCE LABS
         &nbsp;&nbsp;<span>© 2025</span>
     </div>
-    <div class="footer-right">SEED: 4182736501</div>
+    <div class="footer-right">DOI: 10.0000/alethia.2025.001</div>
 </footer>
 
+<script>
+// ─── SITE-WIDE FULL-SCREEN BACKGROUND DUST ───
+(function(){
+  const canvas = document.getElementById('bg-dust');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let w, h;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  let mouse = { x: null, y: null, active: false };
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    mouse.active = true;
+  });
+  window.addEventListener('mouseleave', () => {
+    mouse.active = false;
+  });
+
+  const particles = Array.from({ length: 45 }, () => {
+    const vx = (Math.random() - 0.5) * 0.15;
+    const vy = (Math.random() - 0.5) * 0.15;
+    return {
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: vx, vy: vy,
+      origVx: vx, origVy: vy,
+      r: Math.random() * 0.9 + 0.4,
+      opacity: Math.random() * 0.12 + 0.04
+    };
+  });
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (mouse.active) {
+        const dx = p.x - mouse.x;
+        const dy = p.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          const force = (120 - dist) / 120 * 0.6;
+          p.vx += (dx / (dist || 1)) * force;
+          p.vy += (dy / (dist || 1)) * force;
+        }
+      }
+
+      p.vx += (p.origVx - p.vx) * 0.04;
+      p.vy += (p.origVy - p.vy) * 0.04;
+
+      if (p.x < 0) p.x = w;
+      if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h;
+      if (p.y > h) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(200, 185, 122, ${p.opacity})`;
+      ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+
+// ─── MATRIX TEXT SCRAMBLE DECRYPTOR ───
+(function(){
+  const chars = 'ΔΞΩΨΦΓ01█_#%&*+';
+  
+  function scramble(el) {
+    const originalText = el.getAttribute('data-text') || el.innerText;
+    if (!el.getAttribute('data-text')) {
+      el.setAttribute('data-text', originalText);
+    }
+    
+    let frame = 0;
+    const maxFrames = 12;
+    
+    const interval = setInterval(() => {
+      el.innerText = originalText.split('').map((char, index) => {
+        if (char === ' ' || char === '·' || char === '/' || char === ':') return char;
+        if (index < (frame / maxFrames) * originalText.length) {
+          return originalText[index];
+        }
+        return chars[Math.floor(Math.random() * chars.length)];
+      }).join('');
+      
+      frame++;
+      if (frame > maxFrames) {
+        el.innerText = originalText;
+        clearInterval(interval);
+      }
+    }, 35);
+  }
+
+  const selectors = ['.section-label', '.nav-links a', '.pillar-index', '.pillar-title'];
+  
+  document.querySelectorAll(selectors.join(',')).forEach(el => {
+    scramble(el);
+    el.addEventListener('mouseenter', () => scramble(el));
+  });
+})();
+</script>
 </body>
 </html>

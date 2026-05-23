@@ -5,479 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alethia — Open Intelligence Labs</title>
     <meta name="description" content="Independent open intelligence research. Model architecture · Data synthesis · Distributed training.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-    <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        :root {
-            --void:     #0a0a0a;
-            --gold:     #c8b97a;
-            --parchment:#f0ede6;
-            --surface:  #1e1e1e;
-            --muted:    #444441;
-            --mono: 'IBM Plex Mono', 'Fira Code', 'JetBrains Mono', monospace;
-        }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            background: var(--void);
-            color: var(--parchment);
-            font-family: var(--mono);
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* ─── NAV ─────────────────────────────────────────────── */
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 56px;
-            background: rgba(10,10,10,0.92);
-            border-bottom: 1px solid var(--surface);
-            backdrop-filter: blur(8px);
-        }
-
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
-
-        .nav-brand img {
-            height: 96px;
-            width: auto;
-            display: block;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 44px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            font-size: 12px;
-            letter-spacing: 0.2em;
-            color: var(--muted);
-            text-decoration: none;
-            text-transform: uppercase;
-            transition: color 0.18s;
-        }
-
-        .nav-links a:hover { color: var(--parchment); }
-
-        /* ─── HERO ────────────────────────────────────────────── */
-        .hero {
-            min-height: 100vh;
-            padding: 160px 56px 100px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 3px,
-                rgba(255,255,255,0.008) 3px,
-                rgba(255,255,255,0.008) 4px
-            );
-            pointer-events: none;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(ellipse 60% 50% at 80% 50%, rgba(200,185,122,0.04) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .hero-meta {
-            font-size: 12px;
-            letter-spacing: 0.25em;
-            color: var(--gold);
-            text-transform: uppercase;
-            margin-bottom: 52px;
-            opacity: 0.75;
-        }
-
-        .hero-title {
-            font-size: clamp(64px, 11vw, 140px);
-            font-weight: 500;
-            letter-spacing: 0.05em;
-            line-height: 0.95;
-            color: var(--parchment);
-            margin-bottom: 44px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 0.055em;
-            height: 0.8em;
-            background: var(--gold);
-            margin-left: 6px;
-            vertical-align: middle;
-            position: relative;
-            top: -0.05em;
-            animation: blink 1.1s step-end infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50%       { opacity: 0; }
-        }
-
-        .hero-heading {
-            font-size: clamp(19px, 2.4vw, 28px);
-            font-weight: 400;
-            color: var(--parchment);
-            letter-spacing: 0.03em;
-            margin-bottom: 14px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-body {
-            font-size: 14px;
-            color: var(--muted);
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            margin-bottom: 72px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-rule {
-            width: 480px;
-            max-width: 100%;
-            height: 1px;
-            background: var(--surface);
-            margin-bottom: 44px;
-        }
-
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 14px;
-            font-size: 12px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--gold);
-            text-decoration: none;
-            border: 1px solid rgba(200,185,122,0.5);
-            padding: 15px 32px;
-            position: relative;
-            z-index: 1;
-            width: fit-content;
-            transition: background 0.2s, color 0.2s, border-color 0.2s;
-        }
-
-        .hero-cta:hover {
-            background: var(--gold);
-            color: var(--void);
-            border-color: var(--gold);
-        }
-
-        .hero-cta-arrow {
-            transition: transform 0.2s;
-        }
-
-        .hero-cta:hover .hero-cta-arrow { transform: translateX(4px); }
-
-        /* ─── SECTION BASE ────────────────────────────────────── */
-        .section {
-            padding: 100px 56px;
-            border-top: 1px solid var(--surface);
-        }
-
-        .section-label {
-            font-size: 12px;
-            letter-spacing: 0.22em;
-            color: var(--gold);
-            text-transform: uppercase;
-            margin-bottom: 64px;
-            opacity: 0.75;
-        }
-
-        /* ─── PILLARS ─────────────────────────────────────────── */
-        .pillars-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            background: var(--surface);
-            gap: 1px;
-        }
-
-        .pillar {
-            background: var(--void);
-            padding: 52px 44px 48px;
-            transition: background 0.18s;
-        }
-
-        .pillar:hover { background: #0e0e0e; }
-
-        .pillar-index {
-            font-size: 12px;
-            letter-spacing: 0.18em;
-            color: var(--muted);
-            margin-bottom: 36px;
-        }
-
-        .pillar-title {
-            font-size: 15px;
-            font-weight: 500;
-            letter-spacing: 0.14em;
-            color: var(--parchment);
-            text-transform: uppercase;
-            margin-bottom: 22px;
-        }
-
-        .pillar-desc {
-            font-size: 14px;
-            color: var(--muted);
-            line-height: 1.9;
-        }
-
-        /* ─── ABOUT ───────────────────────────────────────────── */
-        .about-grid {
-            display: grid;
-            grid-template-columns: 220px 1fr;
-            gap: 80px;
-            align-items: start;
-        }
-
-        .about-label-col {
-            font-size: 12px;
-            letter-spacing: 0.22em;
-            color: var(--gold);
-            text-transform: uppercase;
-            opacity: 0.75;
-            padding-top: 4px;
-        }
-
-        .about-text p {
-            font-size: 17px;
-            line-height: 2;
-            color: rgba(240,237,230,0.8);
-        }
-
-        .about-text p + p { margin-top: 24px; }
-
-        .about-callout {
-            margin-top: 48px;
-            padding: 28px 32px;
-            border-left: 2px solid var(--gold);
-            background: rgba(200,185,122,0.04);
-        }
-
-        .about-callout p {
-            font-size: 14px;
-            font-style: italic;
-            color: var(--gold);
-            line-height: 1.8;
-            opacity: 0.85;
-        }
-
-        /* ─── OUTPUT ──────────────────────────────────────────── */
-        .output-pending {
-            border-top: 1px solid var(--surface);
-            border-bottom: 1px solid var(--surface);
-            padding: 52px 0;
-        }
-
-        .output-status {
-            font-size: 12px;
-            letter-spacing: 0.2em;
-            color: var(--muted);
-            text-transform: uppercase;
-            margin-bottom: 40px;
-        }
-
-        .output-status-dot {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            background: var(--gold);
-            border-radius: 50%;
-            margin-right: 12px;
-            vertical-align: middle;
-            position: relative;
-            top: -1px;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50%       { opacity: 0.3; }
-        }
-
-        .output-queue {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-        }
-
-        .output-queue-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 0;
-            border-bottom: 1px solid var(--surface);
-            gap: 32px;
-        }
-
-        .output-queue-item:first-child { border-top: 1px solid var(--surface); }
-
-        .output-queue-title {
-            font-size: 15px;
-            color: rgba(240,237,230,0.45);
-            letter-spacing: 0.02em;
-            flex: 1;
-        }
-
-        .output-queue-tag {
-            font-size: 11px;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            padding: 5px 12px;
-            border: 1px solid var(--surface);
-            color: var(--muted);
-            white-space: nowrap;
-        }
-
-        .output-queue-tag.active {
-            border-color: rgba(200,185,122,0.4);
-            color: var(--gold);
-        }
-
-        /* ─── CONTACT ─────────────────────────────────────────── */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: start;
-        }
-
-        .contact-intro {
-            font-size: 16px;
-            color: rgba(240,237,230,0.65);
-            line-height: 1.9;
-        }
-
-        .contact-links {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-        }
-
-        .contact-link {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 0;
-            border-bottom: 1px solid var(--surface);
-            text-decoration: none;
-            color: var(--parchment);
-            font-size: 15px;
-            letter-spacing: 0.1em;
-            transition: color 0.18s;
-        }
-
-        .contact-link:first-child { border-top: 1px solid var(--surface); }
-        .contact-link:hover { color: var(--gold); }
-
-        .contact-link-arrow {
-            font-size: 10px;
-            color: var(--muted);
-            transition: color 0.18s, transform 0.18s;
-        }
-
-        .contact-link:hover .contact-link-arrow {
-            color: var(--gold);
-            transform: translateX(4px);
-        }
-
-        /* ─── FOOTER ──────────────────────────────────────────── */
-        footer {
-            padding: 40px 56px;
-            border-top: 1px solid var(--surface);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .footer-left {
-            font-size: 12px;
-            letter-spacing: 0.14em;
-            color: var(--muted);
-        }
-
-        .footer-left span {
-            color: rgba(68,68,65,0.5);
-        }
-
-        .footer-right {
-            font-size: 12px;
-            letter-spacing: 0.14em;
-            color: rgba(68,68,65,0.4);
-        }
-
-        /* ─── FADE-IN ─────────────────────────────────────────── */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(16px);
-            animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
-        }
-
-        @keyframes fadeUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero-meta    { animation-delay: 0.1s; }
-        .hero-title   { animation-delay: 0.22s; }
-        .hero-heading { animation-delay: 0.32s; }
-        .hero-body    { animation-delay: 0.38s; }
-        .hero-rule    { animation-delay: 0.44s; }
-        .hero-cta     { animation-delay: 0.52s; }
-
-        /* ─── RESPONSIVE ──────────────────────────────────────── */
-        @media (max-width: 900px) {
-            nav { padding: 18px 28px; }
-            .nav-links { display: none; }
-            .hero { padding: 120px 28px 80px; }
-            .section { padding: 72px 28px; }
-            .pillars-grid { grid-template-columns: 1fr; }
-            .about-grid { grid-template-columns: 1fr; gap: 28px; }
-            .output-item { grid-template-columns: 80px 1fr; }
-            .output-date { display: none; }
-            .contact-grid { grid-template-columns: 1fr; gap: 48px; }
-            footer { padding: 32px 28px; flex-direction: column; gap: 16px; text-align: center; }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- ── NAV ─────────────────────────────────────────────────────────── -->
+<!-- ── SITE-WIDE BACKGROUND DUST CANVASES ── -->
+<canvas id="bg-dust" style="position: fixed; inset: 0; pointer-events: none; z-index: -1; width: 100vw; height: 100vh;"></canvas>
+
+<!-- ── AMBIENT BACKGROUND GLOWS ── -->
+<div class="ambient-glow glow-1"></div>
+<div class="ambient-glow glow-2"></div>
+
+<!-- ── MASTHEAD ── -->
+<div class="masthead">
+    Alethia <span>·</span> Open Intelligence Laboratory <span>·</span> Open Access
+</div>
+
+<!-- ── NAV ── -->
 <nav>
     <a href="#" class="nav-brand">
         <img src="Logo.jpeg" alt="Alethia — Open Intelligence Labs">
@@ -487,86 +31,751 @@
         <li><a href="#output">Output</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
+        <li><span class="open-access-badge">Open Access</span></li>
     </ul>
 </nav>
 
-<!-- ── HERO ────────────────────────────────────────────────────────── -->
+<!-- ── HERO ── -->
 <section class="hero">
-    <div class="hero-meta fade-in">OUTPUT 001 &nbsp;·&nbsp; SEED: 4182736501</div>
-    <h1 class="hero-title fade-in">ALETHIA<span class="cursor"></span></h1>
-    <p class="hero-heading fade-in">Open source intelligence research</p>
-    <p class="hero-body fade-in">Model architecture &nbsp;·&nbsp; Data synthesis &nbsp;·&nbsp; Distributed training</p>
-    <div class="hero-rule fade-in"></div>
-    <a href="publications.html" class="hero-cta fade-in">
+    <div class="hero-meta">Open Intelligence Laboratory &nbsp;·&nbsp; Est. 2025</div>
+    <h1 class="hero-title">ALETHIA<span class="cursor"></span></h1>
+    <p class="hero-heading">Open source intelligence research</p>
+    <p class="hero-body">Model architecture &nbsp;·&nbsp; Data synthesis &nbsp;·&nbsp; Distributed training</p>
+    <div class="hero-rule"></div>
+    <a href="publications.html" class="hero-cta">
         Explore Publications <span class="hero-cta-arrow">→</span>
     </a>
 </section>
 
-<!-- ── ABOUT ────────────────────────────────────────────────────────── -->
-<section class="section" id="about">
-    <div class="about-grid">
-        <div class="about-label-col">// About</div>
-        <div class="about-text">
-            <p>Alethia is an independent open intelligence laboratory. We apply rigorous analytical methodology to the study of artificial intelligence systems — their architecture, training regimes, and societal implications.</p>
-            <p>Our work is grounded in the conviction that transparency is prerequisite to accountability. All findings are published openly, contributing to a shared substrate of machine intelligence knowledge accessible to researchers worldwide.</p>
+<!-- ── BENTO CONTENT CONTAINER ── -->
+<main class="section reveal" style="padding-top: 20px;">
+    <div class="bento-grid">
+        
+        <!-- ABOUT CARD (Span 8) - ROW 1 -->
+        <div class="bento-card span-8" id="about">
+            <div class="tech-corner tl"></div><div class="tech-corner tr"></div>
+            <div class="tech-corner bl"></div><div class="tech-corner br"></div>
+            <div>
+                <div class="section-label" style="margin-bottom: 32px;">// About the Lab</div>
+                <div class="about-text">
+                    <p>Alethia is an independent open intelligence laboratory. We apply rigorous analytical methodology to the study of artificial intelligence systems — their architecture, training regimes, and societal implications.</p>
+                    <p>Our work is grounded in the conviction that transparency is prerequisite to accountability. All findings are published openly, contributing to a shared substrate of machine intelligence knowledge accessible to researchers worldwide.</p>
+                </div>
+            </div>
             <div class="about-callout">
                 <p>"Aletheia — the ancient concept of disclosure, of things revealed from concealment. It is the appropriate name for work that insists on seeing clearly."</p>
             </div>
         </div>
-    </div>
-</section>
 
-<!-- ── OUTPUT ───────────────────────────────────────────────────────── -->
-<section class="section" id="output">
-    <div class="section-label">// Output Queue</div>
-    <div class="output-pending">
-        <div class="output-status">
-            <span class="output-status-dot"></span>
-            Research active &nbsp;·&nbsp; No publications yet
+        <!-- ACTIVE DOMAINS CARD (Span 4) - ROW 1 -->
+        <div class="bento-card span-4" id="domains">
+            <div class="tech-corner tl"></div><div class="tech-corner tr"></div>
+            <div class="tech-corner bl"></div><div class="tech-corner br"></div>
+            <div>
+                <div class="section-label" style="margin-bottom: 24px;">// Active Focus Areas</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+                    <span class="tag-pill">MODEL Architecture</span>
+                    <span class="tag-pill">DATA Synthesis</span>
+                    <span class="tag-pill">DISTRIBUTED Training</span>
+                    <span class="tag-pill">MCP Security</span>
+                    <span class="tag-pill">SCALING Dynamics</span>
+                    <span class="tag-pill">COVARIATE Shift</span>
+                    <span class="tag-pill">OPEN Weights</span>
+                </div>
+                <div class="vector-container">
+                    <canvas class="vector-canvas" id="vector-canvas"></canvas>
+                </div>
+            </div>
         </div>
-        <ul class="output-queue">
-            <li class="output-queue-item">
-                <span class="output-queue-title">Model Architecture Survey</span>
-                <span class="output-queue-tag active">In Progress</span>
-            </li>
-            <li class="output-queue-item">
-                <span class="output-queue-title">Training Dynamics Under Distribution Shift</span>
-                <span class="output-queue-tag">Queued</span>
-            </li>
-            <li class="output-queue-item">
-                <span class="output-queue-title">Distributed Compute Coordination Study</span>
-                <span class="output-queue-tag">Queued</span>
-            </li>
-        </ul>
-    </div>
-</section>
 
-<!-- ── CONTACT ──────────────────────────────────────────────────────── -->
-<section class="section" id="contact">
-    <div class="section-label">// Contact</div>
-    <div class="contact-grid">
-        <p class="contact-intro">We welcome correspondence from researchers, institutions, and those interested in open-source intelligence methodology. All publications and datasets are released publicly.</p>
-        <div class="contact-links">
-            <a href="https://github.com/Alethia-Research" target="_blank" rel="noopener" class="contact-link">
-                GitHub
-                <span class="contact-link-arrow">→</span>
-            </a>
-            <a href="mailto:technocratix902@gmail.com" class="contact-link">
-                technocratix902@gmail.com
-                <span class="contact-link-arrow">→</span>
-            </a>
+        <!-- PUBLICATIONS CARD (Span 7) - ROW 2 -->
+        <div class="bento-card span-7" id="output">
+            <div class="tech-corner tl"></div><div class="tech-corner tr"></div>
+            <div class="tech-corner bl"></div><div class="tech-corner br"></div>
+            <div>
+                <div class="section-label" style="margin-bottom: 32px;">// Output Queue</div>
+                <div class="output-pending">
+                    <div class="output-status">
+                        <span class="output-status-dot"></span>
+                        Research active &nbsp;·&nbsp; 1 published
+                    </div>
+                    
+                    <a href="papers/aletheia-mcp-security-report.pdf" target="_blank" rel="noopener" class="pub-item" style="padding: 24px; margin-bottom: 12px; border-radius: 6px;">
+                        <div class="pub-item-info">
+                            <h4 style="font-size: 17px;">MCP Security Report</h4>
+                            <p style="font-size: 14px;">Analysis of the Model Context Protocol threat surface</p>
+                        </div>
+                        <span class="pub-item-link" style="padding: 8px 16px; font-size: 12px;">
+                            Read Paper →
+                        </span>
+                    </a>
+                    
+                    <div class="pub-item" style="padding: 24px; margin-bottom: 12px; border-radius: 6px;">
+                        <div class="pub-item-info">
+                            <h4 style="font-size: 17px;">Model Architecture Survey</h4>
+                            <p style="font-size: 14px;">Comprehensive survey of scaling dynamics across architectures</p>
+                        </div>
+                        <span class="pub-status-badge">In Progress</span>
+                    </div>
+                    
+                    <div class="pub-item" style="padding: 24px; margin-bottom: 12px; border-radius: 6px;">
+                        <div class="pub-item-info">
+                            <h4 style="font-size: 17px;">Training Dynamics Under Distribution Shift</h4>
+                            <p style="font-size: 14px;">Empirical study of model behavior under covariate and label shift</p>
+                        </div>
+                        <span class="pub-status-badge">Queued</span>
+                    </div>
+                    
+                    <div class="pub-item" style="padding: 24px; border-radius: 6px; margin-bottom: 0;">
+                        <div class="pub-item-info">
+                            <h4 style="font-size: 17px;">Distributed Compute Coordination Study</h4>
+                            <p style="font-size: 14px;">Coordination protocols for geographically distributed training</p>
+                        </div>
+                        <span class="pub-status-badge">Queued</span>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</section>
 
-<!-- ── FOOTER ───────────────────────────────────────────────────────── -->
+        <!-- TRAINING LOSS GRAPH CARD (Span 5) - ROW 2 -->
+        <div class="bento-card span-5" id="loss-card">
+            <div class="tech-corner tl"></div><div class="tech-corner tr"></div>
+            <div class="tech-corner bl"></div><div class="tech-corner br"></div>
+            <div>
+                <div class="section-label" style="margin-bottom: 24px;">// Training Metrics</div>
+                <p style="font-family: var(--font-sans); font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.5; margin-bottom: 8px;">
+                    Real-time validation loss decay curve tracing model convergence. Move your cursor over the chart to inspect steps.
+                </p>
+                <div class="loss-graph-container">
+                    <div class="loss-graph-overlay" id="loss-overlay">
+                        <span>STEP: ---</span>
+                        <span>LOSS: ---</span>
+                    </div>
+                    <canvas class="loss-graph-canvas" id="loss-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTACT CARD (Span 12) - ROW 3 -->
+        <div class="bento-card span-12" id="contact">
+            <div class="tech-corner tl"></div><div class="tech-corner tr"></div>
+            <div class="tech-corner bl"></div><div class="tech-corner br"></div>
+            <div>
+                <div class="section-label" style="margin-bottom: 32px;">// Communications</div>
+                <p class="contact-intro" style="font-size: 16px; font-weight: 300; margin-bottom: 32px;">We welcome correspondence from researchers, institutions, and those interested in open-source intelligence methodology. All publications and datasets are released publicly.</p>
+            </div>
+            <div class="contact-links" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                <a href="https://github.com/Alethia-Research" target="_blank" rel="noopener" class="contact-link" style="padding: 18px 24px; border-radius: 6px;">
+                    GitHub
+                    <span class="contact-link-arrow">→</span>
+                </a>
+                <a href="mailto:technocratix902@gmail.com" class="contact-link" style="padding: 18px 24px; border-radius: 6px;">
+                    technocratix902@gmail.com
+                    <span class="contact-link-arrow">→</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<!-- ── FOOTER ── -->
 <footer>
     <div class="footer-left">
         ALETHIA &nbsp;<span>·</span>&nbsp; OPEN INTELLIGENCE LABS
         &nbsp;&nbsp;<span>© 2025</span>
     </div>
-    <div class="footer-right">SEED: 4182736501</div>
+    <div class="footer-right">DOI: 10.0000/alethia.2025.001</div>
 </footer>
 
+<script>
+// ─── 3D ROTATING PARTICLE SPHERE & ALCHEMICAL MANDALA ───
+(function(){
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+  const c = document.createElement('canvas');
+  c.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:0;width:100%;height:100%';
+  hero.insertBefore(c, hero.firstChild);
+  const x = c.getContext('2d');
+  
+  let w, h;
+  let centerX, centerY;
+  let sphereRadius;
+
+  function resize() {
+    w = c.width = hero.offsetWidth;
+    h = c.height = hero.offsetHeight;
+    if (w <= 900) {
+      centerX = w * 0.5;
+      centerY = h * 0.28;
+    } else {
+      centerX = w * 0.72;
+      centerY = h * 0.5;
+    }
+    sphereRadius = Math.min(w, h) * (w <= 900 ? 0.35 : 0.38);
+  }
+
+  let mouse = { x: null, y: null, active: false };
+  hero.addEventListener('mousemove', (e) => {
+    const rect = hero.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+    mouse.active = true;
+  });
+  hero.addEventListener('mouseleave', () => {
+    mouse.active = false;
+  });
+
+  const numPoints = 85;
+  const nodes = [];
+  for (let i = 0; i < numPoints; i++) {
+    const y3d = 1 - (i / (numPoints - 1)) * 2;
+    const radius = Math.sqrt(1 - y3d * y3d);
+    const theta = 3.88 * i;
+    const x3d = Math.cos(theta) * radius;
+    const z3d = Math.sin(theta) * radius;
+    
+    nodes.push({
+      x3d: x3d,
+      y3d: y3d,
+      z3d: z3d,
+      px: 0,
+      py: 0,
+      r: Math.random() * 1.5 + 1.2
+    });
+  }
+
+  function rotateX(node, angle) {
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    const y = node.y3d * cos - node.z3d * sin;
+    const z = node.y3d * sin + node.z3d * cos;
+    node.y3d = y;
+    node.z3d = z;
+  }
+
+  function rotateY(node, angle) {
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    const x = node.x3d * cos + node.z3d * sin;
+    const z = -node.x3d * sin + node.z3d * cos;
+    node.x3d = x;
+    node.z3d = z;
+  }
+
+  function draw() {
+    x.clearRect(0, 0, w, h);
+
+    // 1. Draw concentric alchemical geometric vectors
+    x.strokeStyle = 'rgba(200, 185, 122, 0.02)';
+    x.lineWidth = 1;
+    
+    // Outer dashed alchemical ring
+    x.beginPath();
+    x.arc(centerX, centerY, sphereRadius * 1.25, 0, Math.PI * 2);
+    x.setLineDash([5, 15]);
+    x.stroke();
+    
+    // Inner thin ring with rotation markers
+    x.beginPath();
+    x.arc(centerX, centerY, sphereRadius * 0.75, 0, Math.PI * 2);
+    x.setLineDash([]);
+    x.strokeStyle = 'rgba(200, 185, 122, 0.03)';
+    x.stroke();
+    
+    // Runic geometry ticks
+    const ticks = 12;
+    const time = Date.now() * 0.00015;
+    for (let i = 0; i < ticks; i++) {
+      const angle = (i / ticks) * Math.PI * 2 + time;
+      const tx1 = centerX + Math.cos(angle) * (sphereRadius * 0.75 - 4);
+      const ty1 = centerY + Math.sin(angle) * (sphereRadius * 0.75 - 4);
+      const tx2 = centerX + Math.cos(angle) * (sphereRadius * 0.75 + 4);
+      const ty2 = centerY + Math.sin(angle) * (sphereRadius * 0.75 + 4);
+      
+      x.beginPath();
+      x.moveTo(tx1, ty1);
+      x.lineTo(tx2, ty2);
+      x.strokeStyle = 'rgba(200, 185, 122, 0.06)';
+      x.stroke();
+    }
+    
+    // Draw alchemical triangles intersecting
+    const triangleAngle = -Date.now() * 0.00008;
+    x.beginPath();
+    for (let i = 0; i < 3; i++) {
+      const angle = (i / 3) * Math.PI * 2 + triangleAngle;
+      const tx = centerX + Math.cos(angle) * (sphereRadius * 1.05);
+      const ty = centerY + Math.sin(angle) * (sphereRadius * 1.05);
+      if (i === 0) x.moveTo(tx, ty);
+      else x.lineTo(tx, ty);
+    }
+    x.closePath();
+    x.strokeStyle = 'rgba(200, 185, 122, 0.015)';
+    x.stroke();
+
+    // 2. Draw rotating 3D particle sphere
+    nodes.forEach(n => {
+      rotateX(n, 0.0015);
+      rotateY(n, 0.002);
+    });
+
+    const fov = 350;
+    const cameraDistance = 2.4;
+
+    nodes.forEach(n => {
+      const scale = fov / (cameraDistance + n.z3d);
+      n.px = centerX + n.x3d * scale * (sphereRadius / 300) * 110;
+      n.py = centerY + n.y3d * scale * (sphereRadius / 300) * 110;
+
+      if (mouse.active) {
+        const dx = mouse.x - n.px;
+        const dy = mouse.y - n.py;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 180) {
+          const force = (180 - dist) / 180 * 0.15;
+          n.px += dx * force;
+          n.py += dy * force;
+        }
+      }
+    });
+
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx3d = nodes[i].x3d - nodes[j].x3d;
+        const dy3d = nodes[i].y3d - nodes[j].y3d;
+        const dz3d = nodes[i].z3d - nodes[j].z3d;
+        const dist3d = Math.sqrt(dx3d * dx3d + dy3d * dy3d + dz3d * dz3d);
+
+        if (dist3d < 0.42) {
+          const avgZ = (nodes[i].z3d + nodes[j].z3d) / 2;
+          const lineOpacity = 0.02 + 0.14 * (1 - (avgZ + 1) / 2);
+          
+          x.beginPath();
+          x.moveTo(nodes[i].px, nodes[i].py);
+          x.lineTo(nodes[j].px, nodes[j].py);
+          x.strokeStyle = `rgba(200, 185, 122, ${lineOpacity})`;
+          x.lineWidth = 0.55;
+          x.stroke();
+        }
+      }
+    }
+
+    nodes.forEach(n => {
+      const pointOpacity = 0.1 + 0.7 * (1 - (n.z3d + 1) / 2);
+      const pointRadius = n.r * (1.3 - (n.z3d + 1) / 2);
+
+      x.beginPath();
+      x.arc(n.px, n.py, Math.max(0.5, pointRadius), 0, Math.PI * 2);
+      x.fillStyle = `rgba(200, 185, 122, ${pointOpacity})`;
+      x.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  draw();
+})();
+
+
+// ─── SITE-WIDE FULL-SCREEN BACKGROUND DUST ───
+(function(){
+  const canvas = document.getElementById('bg-dust');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let w, h;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  let mouse = { x: null, y: null, active: false };
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    mouse.active = true;
+  });
+  window.addEventListener('mouseleave', () => {
+    mouse.active = false;
+  });
+
+  const particles = Array.from({ length: 45 }, () => {
+    const vx = (Math.random() - 0.5) * 0.15;
+    const vy = (Math.random() - 0.5) * 0.15;
+    return {
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: vx, vy: vy,
+      origVx: vx, origVy: vy,
+      r: Math.random() * 0.9 + 0.4,
+      opacity: Math.random() * 0.12 + 0.04
+    };
+  });
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (mouse.active) {
+        const dx = p.x - mouse.x;
+        const dy = p.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          const force = (120 - dist) / 120 * 0.6;
+          p.vx += (dx / (dist || 1)) * force;
+          p.vy += (dy / (dist || 1)) * force;
+        }
+      }
+
+      p.vx += (p.origVx - p.vx) * 0.04;
+      p.vy += (p.origVy - p.vy) * 0.04;
+
+      if (p.x < 0) p.x = w;
+      if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h;
+      if (p.y > h) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(200, 185, 122, ${p.opacity})`;
+      ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+
+// ─── INTERACTIVE TRAINING LOSS GRAPH ───
+(function(){
+  const canvas = document.getElementById('loss-canvas');
+  const overlay = document.getElementById('loss-overlay');
+  if (!canvas || !overlay) return;
+  const ctx = canvas.getContext('2d');
+  
+  let w, h;
+  function resize() {
+    w = canvas.width = canvas.offsetWidth;
+    h = canvas.height = canvas.offsetHeight;
+  }
+  
+  const resizeObserver = new ResizeObserver(() => {
+    resize();
+    drawGraph();
+  });
+  resizeObserver.observe(canvas);
+  resize();
+
+  const steps = 100;
+  const data = [];
+  for (let i = 0; i < steps; i++) {
+    const t = i / (steps - 1);
+    const noise = (Math.sin(i * 0.7) * 0.06 + Math.cos(i * 1.5) * 0.02) * (1 - t * 0.6);
+    const loss = 3.2 * Math.exp(-2.2 * t) + 0.15 + noise;
+    data.push({
+      step: Math.floor(i * 150),
+      loss: parseFloat(loss.toFixed(4))
+    });
+  }
+
+  let hoverX = null;
+  let hoverActive = false;
+
+  canvas.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    hoverX = e.clientX - rect.left;
+    hoverActive = true;
+    drawGraph();
+  });
+
+  canvas.addEventListener('mouseleave', () => {
+    hoverActive = false;
+    hoverX = null;
+    overlay.children[0].innerText = "STEP: ---";
+    overlay.children[1].innerText = "LOSS: ---";
+    drawGraph();
+  });
+
+  function drawGraph() {
+    ctx.clearRect(0, 0, w, h);
+    if (w === 0 || h === 0) return;
+
+    const paddingLeft = 10;
+    const paddingRight = 10;
+    const paddingTop = 45;
+    const paddingBottom = 15;
+    
+    const graphW = w - paddingLeft - paddingRight;
+    const graphH = h - paddingTop - paddingBottom;
+
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+    ctx.lineWidth = 1;
+    for (let i = 1; i < 5; i++) {
+      const gy = paddingTop + (graphH / 5) * i;
+      ctx.beginPath();
+      ctx.moveTo(paddingLeft, gy);
+      ctx.lineTo(w - paddingRight, gy);
+      ctx.stroke();
+    }
+
+    const points = data.map((d, index) => {
+      const x = paddingLeft + (index / (steps - 1)) * graphW;
+      const y = paddingTop + graphH - ((d.loss - 0.1) / (3.5 - 0.1)) * graphH;
+      return { x, y, d };
+    });
+
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, paddingTop + graphH);
+    points.forEach(p => ctx.lineTo(p.x, p.y));
+    ctx.lineTo(points[points.length - 1].x, paddingTop + graphH);
+    ctx.closePath();
+    const areaGlow = ctx.createLinearGradient(0, paddingTop, 0, paddingTop + graphH);
+    areaGlow.addColorStop(0, 'rgba(200, 185, 122, 0.05)');
+    areaGlow.addColorStop(1, 'rgba(200, 185, 122, 0)');
+    ctx.fillStyle = areaGlow;
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+    for (let i = 1; i < points.length; i++) {
+      ctx.lineTo(points[i].x, points[i].y);
+    }
+    ctx.strokeStyle = 'rgba(200, 185, 122, 0.7)';
+    ctx.lineWidth = 1.6;
+    ctx.stroke();
+
+    if (hoverActive && hoverX !== null) {
+      const cx = Math.max(paddingLeft, Math.min(hoverX, w - paddingRight));
+      const pct = (cx - paddingLeft) / graphW;
+      const nearestIndex = Math.max(0, Math.min(Math.floor(pct * (steps - 1)), steps - 1));
+      const hp = points[nearestIndex];
+
+      ctx.beginPath();
+      ctx.moveTo(hp.x, paddingTop);
+      ctx.lineTo(hp.x, paddingTop + graphH);
+      ctx.strokeStyle = 'rgba(200, 185, 122, 0.15)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(paddingLeft, hp.y);
+      ctx.lineTo(w - paddingRight, hp.y);
+      ctx.strokeStyle = 'rgba(200, 185, 122, 0.1)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(hp.x, hp.y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = '#c8b97a';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(hp.x, hp.y, 8, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(200, 185, 122, 0.4)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      overlay.children[0].innerText = `STEP: ${hp.d.step}`;
+      overlay.children[1].innerText = `LOSS: ${hp.d.loss.toFixed(4)}`;
+    }
+  }
+})();
+
+
+// ─── MATRIX TEXT SCRAMBLE DECRYPTOR ───
+(function(){
+  const chars = 'ΔΞΩΨΦΓ01█_#%&*+';
+  
+  function scramble(el) {
+    const originalText = el.getAttribute('data-text') || el.innerText;
+    if (!el.getAttribute('data-text')) {
+      el.setAttribute('data-text', originalText);
+    }
+    
+    let frame = 0;
+    const maxFrames = 12;
+    
+    const interval = setInterval(() => {
+      el.innerText = originalText.split('').map((char, index) => {
+        if (char === ' ' || char === '·' || char === '/' || char === ':') return char;
+        if (index < (frame / maxFrames) * originalText.length) {
+          return originalText[index];
+        }
+        return chars[Math.floor(Math.random() * chars.length)];
+      }).join('');
+      
+      frame++;
+      if (frame > maxFrames) {
+        el.innerText = originalText;
+        clearInterval(interval);
+      }
+    }, 35);
+  }
+
+  const selectors = ['.hero-meta', '.hero-heading', '.section-label', '.nav-links a', '.hero-cta', '.pillar-index', '.pillar-title'];
+  
+  document.querySelectorAll(selectors.join(',')).forEach(el => {
+    scramble(el);
+    el.addEventListener('mouseenter', () => scramble(el));
+  });
+})();
+
+
+// ─── INTERACTIVE VECTOR EMBEDDING PROJECTION SPACE ───
+(function(){
+  const canvas = document.getElementById('vector-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  
+  let w, h;
+  function resize() {
+    w = canvas.width = canvas.offsetWidth;
+    h = canvas.height = canvas.offsetHeight;
+  }
+
+  const resizeObserver = new ResizeObserver(() => {
+    resize();
+    draw();
+  });
+  resizeObserver.observe(canvas);
+  resize();
+
+  let mouse = { x: null, y: null, active: false };
+  canvas.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+    mouse.active = true;
+    draw();
+  });
+  canvas.addEventListener('mouseleave', () => {
+    mouse.active = false;
+    draw();
+  });
+
+  const clusters = [
+    { cx: 0.25, cy: 0.35, color: 'rgba(200, 185, 122, 0.4)' },
+    { cx: 0.72, cy: 0.28, color: 'rgba(200, 185, 122, 0.4)' },
+    { cx: 0.48, cy: 0.75, color: 'rgba(200, 185, 122, 0.4)' }
+  ];
+
+  const numPoints = 65;
+  const points = Array.from({ length: numPoints }, (_, index) => {
+    const clusterIdx = index % clusters.length;
+    const cluster = clusters[clusterIdx];
+    const angle = Math.random() * Math.PI * 2;
+    const dist = Math.random() * 0.18 + 0.02;
+    return {
+      clusterIdx: clusterIdx,
+      ox: cluster.cx + Math.cos(angle) * dist,
+      oy: cluster.cy + Math.sin(angle) * dist,
+      x: 0, y: 0,
+      r: Math.random() * 1.2 + 0.8
+    };
+  });
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    if (w === 0 || h === 0) return;
+
+    clusters.forEach((c, idx) => {
+      const ccx = c.cx * w;
+      const ccy = c.cy * h;
+
+      ctx.beginPath();
+      ctx.arc(ccx, ccy, w * (mouse.active ? 0.08 : 0.16), 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(200, 185, 122, 0.02)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 8]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    });
+
+    points.forEach(p => {
+      const c = clusters[p.clusterIdx];
+      const targetX = c.cx * w;
+      const targetY = c.cy * h;
+      
+      let baseX = p.ox * w;
+      let baseY = p.oy * h;
+
+      if (mouse.active) {
+        const dx = targetX - baseX;
+        const dy = targetY - baseY;
+        baseX += dx * 0.58;
+        baseY += dy * 0.58;
+      }
+
+      ctx.beginPath();
+      ctx.arc(baseX, baseY, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(200, 185, 122, 0.55)';
+      ctx.fill();
+    });
+
+    for (let i = 0; i < points.length; i++) {
+      for (let j = i + 1; j < points.length; j++) {
+        if (points[i].clusterIdx === points[j].clusterIdx) {
+          const c = clusters[points[i].clusterIdx];
+          
+          let x1 = points[i].ox * w;
+          let y1 = points[i].oy * h;
+          let x2 = points[j].ox * w;
+          let y2 = points[j].oy * h;
+
+          if (mouse.active) {
+            x1 += (c.cx * w - x1) * 0.58;
+            y1 += (c.cy * h - y1) * 0.58;
+            x2 += (c.cx * w - x2) * 0.58;
+            y2 += (c.cy * h - y2) * 0.58;
+          }
+
+          const dx = x1 - x2;
+          const dy = y1 - y2;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < (mouse.active ? w * 0.08 : w * 0.12)) {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = `rgba(200, 185, 122, ${0.06 * (1 - dist / (mouse.active ? w * 0.08 : w * 0.12))})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+    }
+  }
+
+  function tick() {
+    points.forEach(p => {
+      p.ox += (Math.random() - 0.5) * 0.0006;
+      p.oy += (Math.random() - 0.5) * 0.0006;
+      p.ox = Math.max(0.05, Math.min(p.ox, 0.95));
+      p.oy = Math.max(0.05, Math.min(p.oy, 0.95));
+    });
+    draw();
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+
+// ─── SCROLL REVEAL OBSERVER ───
+(function(){
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+})();
+</script>
 </body>
 </html>
