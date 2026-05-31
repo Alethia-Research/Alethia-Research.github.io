@@ -3,15 +3,17 @@
 
 /* ─── DESIGN TOKENS & VARIABLES ───────────────────────────── */
 :root {
-    --void:           #060606;
-    --gold:           #c8b97a;
-    --gold-rgb:       200, 185, 122;
-    --parchment:      #f5f2eb;
-    --surface:        #111111;
-    --surface-hover:  #161616;
-    --surface-border: rgba(255, 255, 255, 0.06);
-    --muted:          #8e8e88;
-    --dim:            #70706b;
+    --void:           #0A0C10; /* Deep void background */
+    --void-rgb:       10, 12, 16;
+    --gold:           #C8A84E; /* Warm gold accent */
+    --gold-rgb:       200, 168, 78;
+    --parchment:      #E8E0D0; /* Warm off-white text */
+    --parchment-rgb:  232, 224, 208;
+    --surface:        #14181E; /* Card surface */
+    --surface-hover:  #1A1F26; /* Card hover surface */
+    --surface-border: rgba(200, 168, 78, 0.12); /* Gold-tinged border */
+    --muted:          #8A847C; /* Muted secondary text */
+    --dim:            #6B665E; /* Dim tertiary text */
     --font-serif:     'Lora', Georgia, serif;
     --font-sans:      'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     --font-mono:      'IBM Plex Mono', 'Fira Code', 'JetBrains Mono', monospace;
@@ -111,7 +113,7 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: center;
     gap: 16px;
     padding: 6px 56px;
-    background: rgba(6, 6, 6, 0.9);
+    background: rgba(var(--void-rgb), 0.95);
     border-bottom: 1px solid var(--surface-border);
     font-family: var(--font-mono);
     font-size: 9px;
@@ -131,7 +133,7 @@ nav {
     align-items: center;
     justify-content: space-between;
     padding: 12px 56px;
-    background: rgba(6, 6, 6, 0.7);
+    background: rgba(var(--void-rgb), 0.85);
     border-bottom: 1px solid var(--surface-border);
     backdrop-filter: blur(12px) saturate(180%);
     transition: var(--transition);
@@ -311,7 +313,7 @@ nav {
     width: 480px;
     max-width: 100%;
     height: 1px;
-    background: rgba(255,255,255,0.06);
+    background: rgba(var(--gold-rgb), 0.08);
     margin-bottom: 48px;
     position: relative;
     overflow: hidden;
@@ -350,7 +352,7 @@ nav {
     position: relative;
     z-index: 1;
     width: fit-content;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
     transition: var(--transition);
 }
 
@@ -419,7 +421,7 @@ nav {
     font-size: 20px;
     font-weight: 300;
     line-height: 1.9;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(232, 224, 208, 0.85);
 }
 
 .about-text p strong {
@@ -551,7 +553,7 @@ nav {
     letter-spacing: 0.08em;
     color: var(--parchment);
     padding: 6px 12px;
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(var(--gold-rgb), 0.03);
     border: 1px solid var(--surface-border);
     border-radius: 4px;
     text-transform: uppercase;
@@ -774,7 +776,7 @@ nav {
     border: 1px solid var(--surface-border);
     padding: 8px 16px;
     border-radius: 4px;
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(var(--gold-rgb), 0.03);
 }
 
 /* ─── CONTACT GRID ─────────────────────────────────────────── */
@@ -789,7 +791,7 @@ nav {
     font-family: var(--font-sans);
     font-size: 17px;
     font-weight: 300;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(232, 224, 208, 0.85);
     line-height: 1.9;
 }
 
@@ -842,7 +844,7 @@ footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(6, 6, 6, 0.5);
+    background: rgba(0, 0, 0, 0.3);
 }
 
 .footer-left {
@@ -1127,4 +1129,120 @@ footer {
     inset: 0;
     width: 100%;
     height: 100%;
+}
+
+/* ─── INLINE PDF VIEWER ───────────────────────────────────── */
+.pdf-viewer-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.pdf-viewer-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.pdf-viewer-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+}
+
+.pdf-viewer-container {
+    position: relative;
+    width: 90vw;
+    height: 88vh;
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+    z-index: 1;
+}
+
+.pdf-viewer-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: rgba(0,0,0,0.3);
+    border-bottom: 1px solid var(--surface-border);
+    flex-shrink: 0;
+}
+
+.pdf-viewer-title {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--parchment);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 60%;
+}
+
+.pdf-viewer-toolbar-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.pdf-viewer-btn {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border: 1px solid var(--surface-border);
+    border-radius: 4px;
+    background: rgba(var(--gold-rgb), 0.05);
+    color: var(--parchment);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.pdf-viewer-btn:hover {
+    background: rgba(var(--gold-rgb), 0.15);
+    border-color: rgba(var(--gold-rgb), 0.3);
+    color: var(--gold);
+}
+
+.pdf-viewer-btn-close {
+    background: rgba(255,255,255,0.03);
+}
+
+.pdf-viewer-btn-close:hover {
+    background: rgba(200, 80, 70, 0.15);
+    border-color: rgba(200, 80, 70, 0.3);
+    color: #E07A6A;
+}
+
+.pdf-viewer-iframe {
+    flex-grow: 1;
+    width: 100%;
+    border: none;
+    background: #1a1a1a;
+}
+
+@media (max-width: 768px) {
+    .pdf-viewer-container {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+    }
+    .pdf-viewer-title {
+        max-width: 40%;
+        font-size: 12px;
+    }
 }

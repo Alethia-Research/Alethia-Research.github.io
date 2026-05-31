@@ -97,8 +97,18 @@
                 <div class="output-pending">
                     <div class="output-status">
                         <span class="output-status-dot"></span>
-                        Research active &nbsp;·&nbsp; 1 published
+                        Research active &nbsp;·&nbsp; 2 published
                     </div>
+
+                    <a href="papers/Paper-1.pdf" target="_blank" rel="noopener" class="pub-item" style="padding: 24px; margin-bottom: 12px; border-radius: 6px;">
+                        <div class="pub-item-info">
+                            <h4 style="font-size: 17px;">The Two-Body Partition of Transformer Alignment</h4>
+                            <p style="font-size: 14px;">Safety Circuits Occupy a Structurally Distinct Peripheral Layer, Enabling Zero-Tax Alignment via Layer-Frozen Training</p>
+                        </div>
+                        <span class="pub-item-link" style="padding: 8px 16px; font-size: 12px;">
+                            Read Paper →
+                        </span>
+                    </a>
                     
                     <a href="papers/Alethia-MCP-Security-Report.pdf" target="_blank" rel="noopener" class="pub-item" style="padding: 24px; margin-bottom: 12px; border-radius: 6px;">
                         <div class="pub-item-info">
@@ -156,7 +166,109 @@
             </div>
         </div>
 
-        <!-- CONTACT CARD (Span 12) - ROW 3 -->
+        <!-- SAFETY CIRCUIT DISTRIBUTION CARD (Span 7) - ROW 3 -->
+        <div class="bento-card span-7" id="circuit-dist-card">
+            <div class="tech-corner tl"></div><div class="tech-corner tr"></div>
+            <div class="tech-corner bl"></div><div class="tech-corner br"></div>
+            <div>
+                <div class="section-label" style="margin-bottom: 24px;">// Safety Circuit Distribution</div>
+                <p style="font-family: var(--font-sans); font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.5; margin-bottom: 8px;">
+                    Neuron-level concentration skew of safety attributes across model layers (94.3% inside L24-L27). Move cursor to inspect.
+                </p>
+                <!-- SVG Bar Graph -->
+                <div style="position:relative; width:100%; height:200px; margin-top:20px;">
+                    <svg viewBox="0 0 500 200" width="100%" height="100%" style="overflow:visible;">
+                        <!-- Grid Lines -->
+                        <line x1="40" y1="20" x2="480" y2="20" stroke="rgba(181,140,61,0.08)" stroke-dasharray="3,3" />
+                        <line x1="40" y1="60" x2="480" y2="60" stroke="rgba(181,140,61,0.08)" stroke-dasharray="3,3" />
+                        <line x1="40" y1="100" x2="480" y2="100" stroke="rgba(181,140,61,0.08)" stroke-dasharray="3,3" />
+                        <line x1="40" y1="140" x2="480" y2="140" stroke="rgba(181,140,61,0.08)" stroke-dasharray="3,3" />
+                        <line x1="40" y1="170" x2="480" y2="170" stroke="rgba(181,140,61,0.15)" />
+                        
+                        <!-- Y Labels -->
+                        <text x="30" y="24" font-size="8" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="end">80%</text>
+                        <text x="30" y="64" font-size="8" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="end">60%</text>
+                        <text x="30" y="104" font-size="8" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="end">40%</text>
+                        <text x="30" y="144" font-size="8" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="end">20%</text>
+                        <text x="30" y="174" font-size="8" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="end">0%</text>
+                        
+                        <!-- L0-20 -->
+                        <rect x="60" y="165" width="40" height="5" fill="var(--muted)" rx="2" style="transition:var(--transition); opacity:0.6; cursor:pointer;" onmouseover="this.style.fill='var(--gold)';" onmouseout="this.style.fill='var(--muted)';" />
+                        <text x="80" y="186" font-size="8" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="middle">L0-20</text>
+                        <text x="80" y="158" font-size="8" fill="var(--parchment)" font-family="var(--font-mono)" text-anchor="middle">3%</text>
+                        
+                        <!-- L21-23 -->
+                        <rect x="150" y="152" width="40" height="18" fill="var(--muted)" rx="2" style="transition:var(--transition); opacity:0.8; cursor:pointer;" onmouseover="this.style.fill='var(--gold)';" onmouseout="this.style.fill='var(--muted)';" />
+                        <text x="170" y="186" font-size="8" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="middle">L21-23</text>
+                        <text x="170" y="145" font-size="8" fill="var(--parchment)" font-family="var(--font-mono)" text-anchor="middle">9%</text>
+                        
+                        <!-- L24-25 -->
+                        <rect x="240" y="148" width="40" height="22" fill="var(--gold)" rx="2" style="transition:var(--transition); cursor:pointer;" onmouseover="this.style.fill='#3D8285';" onmouseout="this.style.fill='var(--gold)';" />
+                        <text x="260" y="186" font-size="8" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="middle">L24-25</text>
+                        <text x="260" y="140" font-size="8" fill="var(--parchment)" font-family="var(--font-mono)" text-anchor="middle">12%</text>
+                        
+                        <!-- L26 -->
+                        <rect x="330" y="152" width="40" height="18" fill="var(--gold)" rx="2" style="transition:var(--transition); cursor:pointer;" onmouseover="this.style.fill='#3D8285';" onmouseout="this.style.fill='var(--gold)';" />
+                        <text x="350" y="186" font-size="8" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="middle">L26</text>
+                        <text x="350" y="145" font-size="8" fill="var(--parchment)" font-family="var(--font-mono)" text-anchor="middle">9%</text>
+                        
+                        <!-- L27 -->
+                        <rect x="420" y="38" width="40" height="132" fill="#3D8285" rx="2" style="transition:var(--transition); cursor:pointer; filter:drop-shadow(0 0 4px rgba(61,130,133,0.3));" onmouseover="this.style.fill='var(--gold)';" onmouseout="this.style.fill='#3D8285';" />
+                        <text x="440" y="186" font-size="8" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="middle">L27 (Peak)</text>
+                        <text x="440" y="32" font-size="9" fill="var(--parchment)" font-family="var(--font-mono)" font-weight="600" text-anchor="middle">71%</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- REFUSAL SWEEPS CARD (Span 5) - ROW 3 -->
+        <div class="bento-card span-5" id="sweeps-card">
+            <div class="tech-corner tl"></div><div class="tech-corner tr"></div>
+            <div class="tech-corner bl"></div><div class="tech-corner br"></div>
+            <div>
+                <div class="section-label" style="margin-bottom: 24px;">// Ablation Sweeps</div>
+                <p style="font-family: var(--font-sans); font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.5; margin-bottom: 8px;">
+                    Safety refusal policy decay sweeps comparing Layer-Frozen SFT vs. Standard SFT.
+                </p>
+                <!-- SVG Line Graph -->
+                <div style="position:relative; width:100%; height:200px; margin-top:20px;">
+                    <svg viewBox="0 0 350 200" width="100%" height="100%" style="overflow:visible;">
+                        <!-- Grid Lines -->
+                        <line x1="30" y1="20" x2="330" y2="20" stroke="rgba(181,140,61,0.08)" stroke-dasharray="3,3" />
+                        <line x1="30" y1="60" x2="330" y2="60" stroke="rgba(181,140,61,0.08)" stroke-dasharray="3,3" />
+                        <line x1="30" y1="100" x2="330" y2="100" stroke="rgba(181,140,61,0.08)" stroke-dasharray="3,3" />
+                        <line x1="30" y1="140" x2="330" y2="140" stroke="rgba(181,140,61,0.08)" stroke-dasharray="3,3" />
+                        <line x1="30" y1="170" x2="330" y2="170" stroke="rgba(181,140,61,0.15)" />
+                        
+                        <!-- Labels -->
+                        <text x="25" y="24" font-size="7" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="end">80%</text>
+                        <text x="25" y="64" font-size="7" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="end">60%</text>
+                        <text x="25" y="104" font-size="7" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="end">40%</text>
+                        <text x="25" y="144" font-size="7" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="end">20%</text>
+                        <text x="25" y="174" font-size="7" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="end">0%</text>
+                        
+                        <text x="30" y="186" font-size="7" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="middle">k=0</text>
+                        <text x="130" y="186" font-size="7" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="middle">200</text>
+                        <text x="230" y="186" font-size="7" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="middle">500</text>
+                        <text x="330" y="186" font-size="7" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="middle">1000</text>
+                        
+                        <!-- Control line -->
+                        <path d="M 30 140 L 90 170 L 150 170 L 210 170 L 270 170 L 330 140" 
+                              fill="none" stroke="#C25953" stroke-width="1.5" stroke-dasharray="3,3" />
+                              
+                        <!-- LFSFT line -->
+                        <path d="M 30 100 L 90 60 L 150 100 L 210 140 L 270 170 L 330 140" 
+                              fill="none" stroke="#3D8285" stroke-width="2.5" />
+                              
+                        <circle cx="30" cy="100" r="4" fill="#3D8285" />
+                        <circle cx="90" cy="60" r="4" fill="#3D8285" />
+                        <circle cx="210" cy="140" r="4" fill="#3D8285" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTACT CARD (Span 12) - ROW 4 -->
         <div class="bento-card span-12" id="contact">
             <div class="tech-corner tl"></div><div class="tech-corner tr"></div>
             <div class="tech-corner bl"></div><div class="tech-corner br"></div>
@@ -777,5 +889,72 @@
   document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
 })();
 </script>
+<!-- ─── INLINE PDF VIEWER OVERLAY ─── -->
+<div class="pdf-viewer-overlay" id="pdfViewer">
+  <div class="pdf-viewer-backdrop" id="pdfViewerBackdrop"></div>
+  <div class="pdf-viewer-container">
+    <div class="pdf-viewer-toolbar">
+      <span class="pdf-viewer-title" id="pdfViewerTitle">Paper</span>
+      <div class="pdf-viewer-toolbar-actions">
+        <button class="pdf-viewer-btn" id="pdfViewerDownload">Download</button>
+        <button class="pdf-viewer-btn pdf-viewer-btn-close" id="pdfViewerClose">Close</button>
+      </div>
+    </div>
+    <iframe class="pdf-viewer-iframe" id="pdfViewerIframe"></iframe>
+  </div>
+</div>
+
+<script>
+(function(){
+  var overlay = document.getElementById('pdfViewer');
+  var iframe = document.getElementById('pdfViewerIframe');
+  var titleEl = document.getElementById('pdfViewerTitle');
+  var backdrop = document.getElementById('pdfViewerBackdrop');
+  var closeBtn = document.getElementById('pdfViewerClose');
+  var downloadBtn = document.getElementById('pdfViewerDownload');
+  var currentSrc = '';
+
+  var PdfViewer = {
+    open: function(src, title) {
+      currentSrc = src;
+      iframe.src = src;
+      titleEl.textContent = title || 'Paper';
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    },
+    close: function() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      setTimeout(function() { iframe.src = ''; }, 300);
+    },
+    download: function() {
+      if (currentSrc) {
+        var a = document.createElement('a');
+        a.href = currentSrc;
+        a.download = currentSrc.split('/').pop();
+        a.click();
+      }
+    }
+  };
+
+  backdrop.addEventListener('click', function() { PdfViewer.close(); });
+  closeBtn.addEventListener('click', function() { PdfViewer.close(); });
+  downloadBtn.addEventListener('click', function() { PdfViewer.download(); });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') PdfViewer.close();
+  });
+
+  document.querySelectorAll('a[href$=".pdf"]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var title = '';
+      var h4 = this.querySelector('h4');
+      if (h4) title = h4.innerText;
+      PdfViewer.open(this.href, title);
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
